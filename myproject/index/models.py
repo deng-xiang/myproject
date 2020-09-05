@@ -17,7 +17,7 @@ class Project(models.Model):
     name = models.CharField(max_length=128, verbose_name="项目名称")
     types = models.IntegerField(choices=PROJECT_TYPES,default=0,verbose_name="项目分类")
     create_time=models.DateField(auto_now_add=True,editable=False,verbose_name="创建时间")
-    close_time=models.DateField(verbose_name="结束时间")
+    close_time=models.DateField(editable=True,verbose_name="结束时间")
     status=models.IntegerField(choices=STATUS_ITEMS,default=0, verbose_name="项目状态")
     def __str__(self):
         return '<项目:{}>'.format(self.name)
