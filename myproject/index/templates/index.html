@@ -5,10 +5,25 @@
     </head>
     <body>
         <h3><a href="/admin/">Admin</a>></h3>
+
         <ul>
+            <table border="1" cellpadding="0">
+                
+                <tr>
+                    <td>项目名称</td>
+                    <td>项目分类</td>
+                    <td>项目状态</td>
+                </tr>
+
             {% for project in projects %}
-                <li>{{project.name}} - {{project.get_types_display}}-{{project.get_status_display}}</li>
+
+            <tr>
+                <td>{{project.name}} </td>
+                <td>{{project.get_types_display}}</td>
+                <td>{{project.get_status_display}}</td>
+            </tr>
             {% endfor %}
+            </table>
         </ul>
         <hr/>
         <form action="/" method="post">
