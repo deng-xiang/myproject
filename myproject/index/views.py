@@ -5,19 +5,40 @@ from django.shortcuts import render
 
 from .models import Project
 from .forms import ProjectForm
+from django.http import HttpResponseRedirect
+from django.shortcuts import  render
+from django.urls import reverse
+from django.views import View
+
+from .forms import  ProjectForm
+from .models import  Project
 
 # Create your views here.
-def index(request):
-    projects=Project.objects.all()
-    if request.method == 'POST':
+class IndexView(View):
+    template_name='index.html'
+
+    def get_context(self):
+        projects= Project.get_all()
+        context = {
+            'projects':projects
+        }
+        return  context
+
+    def get(self,request):
+        context = self.get_context()
+        form = ProjectForm()
+        context.update({
+            'form':form
+        })
+        return render(request, self.template_name, context=context)
+
+    def post(self,request):
         form = ProjectForm(request.POST)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('index'))
-    else:
-        form = ProjectForm()
-    context = {
-        'projects':projects,
-        'form':form,
-    }
-    return render( request, 'index.html', context=context)
+        context = self.get_context()
+        context.update({
+            'form':form
+        })
+        return render(request, self.template_name, context=context)
